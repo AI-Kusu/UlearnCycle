@@ -1,0 +1,46 @@
+В том же проекте выведите робота из лабиринта вида «змейка».
+Запустите проект и самостоятельно изучите этот тип лабиринтов.
+
+Дополнительные ограничения:
+
+Запрещено использовать более одного цикла в одном методе.
+Запрещено иметь методы длиннее 12 строк кода.
+Запрещено использовать ключевое слово catch
+Разрешено создавать вспомогательные методы, но только понятными именами, в том числе именами аргументов.
+Обратите внимание, чтобы в вашем коде не было дублирующихся почти одинаковых методов.
+
+
+namespace Mazes
+{
+    public static class SnakeMazeTask
+    {
+        // горизонтальное движение
+        public static void MovesHorizontally(Robot robot, int width, Direction dir)
+        {
+            for (int i = 0; i < width - 3; ++i)
+                robot.MoveTo(dir);
+        }
+        // кривая движения
+        public static void MovesCurve(Robot robot, int width, int height)
+        {
+            MovesHorizontally(robot, width, Direction.Right);
+            robot.MoveTo(Direction.Down);
+            robot.MoveTo(Direction.Down);
+            MovesHorizontally(robot, width, Direction.Left);
+        }
+        // движение
+        public static void MoveOut(Robot robot, int width, int height)
+        {
+            var movements = height > 5 ? height / 4 : 1;
+            for (int i = 0; i < movements;)
+            {
+                MovesCurve(robot, width, height);
+                if (++i != movements)
+                {
+                    robot.MoveTo(Direction.Down);
+                    robot.MoveTo(Direction.Down);
+                }
+            }
+        }
+    }
+}
